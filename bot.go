@@ -2,38 +2,30 @@ package main
 
 import (
 	"flag"
+	"game-collection/logger"
+	. "game-collection/settings"
 	tg "github.com/go-telegram-bot-api/telegram-bot-api"
-	"log"
 )
 
 var token = flag.String("t", "", "Token for access bot")
-var bot *tg.BotAPI
 
-func Auth() {
-	var err error
+func Auth() *tg.BotAPI {
 	flag.Parse()
-	bot, err = tg.NewBotAPI(*token)
-	if err != nil {
-		log.Panic(err)
-	}
+	bot, err := tg.NewBotAPI(*token)
+	logger.CheckError(err)
 
 	bot.Debug = true
-	log.Printf("Authorized on account %s", bot.Self.UserName)
+	logger.AuthSuccess(bot)
+
+	return bot
 }
 
-func SendMsg(msg tg.Chattable) {
-	if _, err := bot.Send(msg); err != nil {
-		log.Panic(err)
-	}
+func SendMsg(bot *tg.BotAPI, msg tg.Chattable) {
+	_, sendErr := bot.Send(msg)
+	logger.CheckError(sendErr)
 }
 
-func main() {
-	Auth()
-	u := tg.NewUpdate(0)
-	u.Timeout = 60
-
-	updates := bot.GetUpdatesChan(u)
-
+func UpdateHandler(bot *tg.BotAPI, updates tg.UpdatesChannel) {
 	for update := range updates {
 		if update.Message == nil { // ignore any non-Message Updates
 			continue
@@ -43,13 +35,21 @@ func main() {
 
 		switch update.Message.Text {
 		case "/start":
-			msg.Text = startMsg
-			msg.ReplyMarkup = startKeyboard
+			msg.Text = StartMsg
+			msg.ReplyMarkup = StartKeyboard
 		default:
-			msg.Text = unknownCommand
-			msg.ReplyMarkup = startKeyboard
+			// msg.Text = UnknownCommand
+			msg.ReplyMarkup = StartKeyboard
 		}
-
-		SendMsg(msg)
+		SendMsg(bot, msg)
 	}
+}
+
+func main() {
+	bot := Auth()
+	u := tg.NewUpdate(0)
+	u.Timeout = 60
+
+	updates := bot.GetUpdatesChan(u)
+	UpdateHandler(bot, updates)
 }
