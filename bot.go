@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"game-collection/games"
 	"game-collection/logger"
 	. "game-collection/settings"
 	tg "github.com/go-telegram-bot-api/telegram-bot-api"
@@ -32,13 +33,20 @@ func UpdateHandler(bot *tg.BotAPI, updates tg.UpdatesChannel) {
 		}
 
 		msg := tg.NewMessage(update.Message.Chat.ID, "")
+		msg.ParseMode = "HTML"
 
 		switch update.Message.Text {
 		case "/start":
 			msg.Text = StartMsg
 			msg.ReplyMarkup = StartKeyboard
+		case Bunker:
+			msg.Text = BunkerOptions
+			msg.ReplyMarkup = BunkerKeyboard
+		case BunkerCharacter:
+			msg.Text = games.BunkerCharacter()
+			msg.ReplyMarkup = BunkerKeyboard
 		default:
-			// msg.Text = UnknownCommand
+			msg.Text = UnknownCommand
 			msg.ReplyMarkup = StartKeyboard
 		}
 		SendMsg(bot, msg)

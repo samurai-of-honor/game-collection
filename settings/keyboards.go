@@ -17,3 +17,15 @@ var StartKeyboard = tg.NewReplyKeyboard(
 		tg.NewKeyboardButton(Mafia),
 	),
 )
+
+var BunkerKeyboard = tg.NewReplyKeyboard(
+	tg.NewKeyboardButtonRow(
+		tg.NewKeyboardButton(BunkerCharacter),
+	),
+	tg.NewKeyboardButtonRow(
+		tg.NewKeyboardButton(BunkerCatastrophe),
+	),
+	tg.NewKeyboardButtonRow(
+		tg.NewKeyboardButton(BunkerShelter),
+	),
+)
