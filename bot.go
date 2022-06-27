@@ -45,6 +45,9 @@ func UpdateHandler(bot *tg.BotAPI, updates tg.UpdatesChannel) {
 		case BunkerCharacter:
 			msg.Text = games.BunkerCharacter()
 			msg.ReplyMarkup = BunkerKeyboard
+		case BunkerShelter:
+			msg.Text = games.BunkerInfo()
+			msg.ReplyMarkup = BunkerKeyboard
 		default:
 			msg.Text = UnknownCommand
 			msg.ReplyMarkup = StartKeyboard
