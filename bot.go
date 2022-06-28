@@ -28,31 +28,55 @@ func SendMsg(bot *tg.BotAPI, msg tg.Chattable) {
 
 func UpdateHandler(bot *tg.BotAPI, updates tg.UpdatesChannel) {
 	for update := range updates {
-		if update.Message == nil { // ignore any non-Message Updates
-			continue
-		}
+		if update.Message != nil { // ignore any non-Message Updates
+			msg := tg.NewMessage(update.Message.Chat.ID, "")
+			msg.ParseMode = "HTML"
 
-		msg := tg.NewMessage(update.Message.Chat.ID, "")
-		msg.ParseMode = "HTML"
+			switch update.Message.Text {
+			case "/start":
+				msg.Text = StartMsg
+				msg.ReplyMarkup = StartKeyboard
+			case Return:
+				msg.Text = SelectGame
+				msg.ReplyMarkup = StartKeyboard
+			case Bunker:
+				msg.Text = BunkerOptions
+				msg.ReplyMarkup = BunkerKeyboard
+			case BunkerCharacter:
+				msg.Text = games.BunkerCharacter()
+				msg.ReplyMarkup = CharacterKeyboard
+			case BunkerShelter:
+				msg.Text = games.BunkerInfo()
+				msg.ReplyMarkup = BunkerKeyboard
+			case BunkerCatastrophe:
+				msg.Text = games.BunkerCatastrophe()
+				msg.ReplyMarkup = BunkerKeyboard
+			default:
+				msg.Text = UnknownCommand
+				msg.ReplyMarkup = StartKeyboard
+			}
+			SendMsg(bot, msg)
+		} else if update.CallbackQuery != nil {
+			// telling Telegram to show the user a message with the data received
+			callback := tg.NewCallback(update.CallbackQuery.ID, update.CallbackQuery.Data)
+			if _, err := bot.Request(callback); err != nil {
+				panic(err)
+			}
 
-		switch update.Message.Text {
-		case "/start":
-			msg.Text = StartMsg
-			msg.ReplyMarkup = StartKeyboard
-		case Bunker:
-			msg.Text = BunkerOptions
-			msg.ReplyMarkup = BunkerKeyboard
-		case BunkerCharacter:
-			msg.Text = games.BunkerCharacter()
-			msg.ReplyMarkup = BunkerKeyboard
-		case BunkerShelter:
-			msg.Text = games.BunkerInfo()
-			msg.ReplyMarkup = BunkerKeyboard
-		default:
-			msg.Text = UnknownCommand
-			msg.ReplyMarkup = StartKeyboard
+			var text string
+			if update.CallbackQuery.Data == Regenerate {
+				text = games.BunkerCharacter()
+			}
+			if update.CallbackQuery.Data == Save {
+				text = UnknownCommand
+			}
+
+			// Send a changed message
+			msg := tg.NewEditMessageTextAndMarkup(update.CallbackQuery.Message.Chat.ID,
+				update.CallbackQuery.Message.MessageID, text, CharacterKeyboard)
+			msg.ParseMode = "HTML"
+			SendMsg(bot, msg)
 		}
-		SendMsg(bot, msg)
 	}
 }
 

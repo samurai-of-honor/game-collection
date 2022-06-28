@@ -7,9 +7,15 @@ import (
 	"time"
 )
 
+type Catastrophe struct {
+	Lore              string
+	StayTime          string
+	SurvivePopulation float32
+	DestructionDegree int
+}
+
 type Info struct {
 	Square          int
-	StayTime        string
 	FoodStocks      string
 	MedicalOffice   string
 	GreenHouses     string
@@ -33,6 +39,22 @@ func TimeFormatter() string {
 	return timeStr
 }
 
+func BunkerCatastrophe() string {
+	c := new(Catastrophe)
+	p := "%"
+
+	c.Lore = Catastrophes[rand.Intn(len(Catastrophes))]
+	c.StayTime = TimeFormatter()
+
+	c.SurvivePopulation = SurvivePopulation[rand.Intn(len(SurvivePopulation))]
+	c.DestructionDegree = DestructionDegree[rand.Intn(len(DestructionDegree))]
+
+	ctrph := fmt.Sprintf("💥 <b>Катастрофа:</b> <i>%s</i>\n⏱ <b>Час в бункері:</b> <i>%s</i>\n", c.Lore, c.StayTime)
+	ctrph += fmt.Sprintf("👨‍👩‍👧‍👦 <b>Кількість виживших:</b> <i>%.2f %s</i>\n\U0001F9F1 <b>Руйнування на поверхні:</b> <i>%d %s</i>\n",
+		c.SurvivePopulation, p, c.DestructionDegree, p)
+	return ctrph
+}
+
 func BunkerInfo() string {
 	i := new(Info)
 	rand.Seed(time.Now().Unix()) // initialize pseudo random generator
@@ -50,8 +72,11 @@ func BunkerInfo() string {
 		i.Armory = IsOrIsnt[rand.Intn(2)]
 	}
 
-	i.StayTime = TimeFormatter()
-	i.FoodStocks = TimeFormatter()
+	s := TimeFormatter()
+	if s == "40 років" || s == "69 років" || s == "100 років" || s == "999 років" {
+		s = TimeFormatter()
+	}
+	i.FoodStocks = s
 
 	// Formation of additional items
 	if rand.Intn(7) == 0 {
@@ -65,8 +90,8 @@ func BunkerInfo() string {
 		i.AdditionalItem2 = AdditionalItems[rand.Intn(len(AdditionalItems))]
 	}
 
-	info := fmt.Sprintf("🔲 <b>Площа:</b> <i>%d м2</i>\n⏱ <b>Час перебування:</b> <i>%s</i>\n🍲 <b>Запасів води і їжі на:</b> <i>%s</i>\n",
-		i.Square, i.StayTime, i.FoodStocks)
+	info := fmt.Sprintf("🔲 <b>Площа:</b> <i>%d м2</i>\n🍲 <b>Запасів води і їжі на:</b> <i>%s</i>\n",
+		i.Square, i.FoodStocks)
 	info += fmt.Sprintf("🏥 <b>Медичний кабінет:</b> <i>%s</i>\n🌿 <b>Город із теплицями:</b> <i>%s</i>\n🔫 <b>Зброярня:</b> <i>%s</i>\n",
 		i.MedicalOffice, i.GreenHouses, i.Armory)
 	info += fmt.Sprintf("📦 <b>Додатковий предмет 1:</b>\n<i>%s</i>\n📦 <b>Додатковий предмет 2:</b>\n<i>%s</i>\n",
