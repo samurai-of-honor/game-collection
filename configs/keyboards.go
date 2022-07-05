@@ -1,4 +1,4 @@
-package settings
+package configs
 
 import (
 	tg "github.com/go-telegram-bot-api/telegram-bot-api"
@@ -35,7 +35,6 @@ var BunkerKeyboard = tg.NewReplyKeyboard(
 
 var CharacterKeyboard = tg.NewInlineKeyboardMarkup(
 	tg.NewInlineKeyboardRow(
-		tg.NewInlineKeyboardButtonData(Regenerate, Regenerate),
-		tg.NewInlineKeyboardButtonData(Save, Save),
+		tg.NewInlineKeyboardButtonData(Regenerate, Regenerated),
 	),
 )

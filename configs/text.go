@@ -1,4 +1,4 @@
-package settings
+package configs
 
 // All bot text
 var (
@@ -18,6 +18,6 @@ var (
 	BunkerCatastrophe = "☄️ Катастрофа"
 	BunkerShelter     = "⛺️ Інформація про бункер"
 
-	Regenerate = "Перегенерувати 🔄"
-	Save       = "Зберегти ⏸"
+	Regenerate  = "Перегенерувати 🔄"
+	Regenerated = "Перегенеровано \U0001F7E2"
 )

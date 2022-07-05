@@ -23,6 +23,18 @@ type Character struct {
 	Card2          string
 }
 
+func (c *Character) CharacterFormatting() string {
+	character := fmt.Sprintf("🚻 <b>Стать:</b> <i>%s</i>\n🔞 <b>Вік:</b> %d\n🥋 <b>Професія:</b> <i>%s</i>\n  \t \t<b>Стаж:</b> <i>%s</i>\n",
+		c.Gender, c.Age, c.Profession, c.ProfessionExp)
+	character += fmt.Sprintf("🤰 <b>Здатність до запліднення:</b> <i>%s</i>\n💊 <b>Стан здоров'я:</b> <i>%s</i>\n💪 <b>Тип тіла:</b> <i>%s</i>\n",
+		c.Fertility, c.HealthStatus, c.BodyType)
+	character += fmt.Sprintf("😱 <b>Фобія:</b> <i>%s</i>\n🏆 <b>Хобі:</b> <i>%s</i>\n🎟 <b>Дод. інформація:</b> <i>%s</i>\n",
+		c.Phobia, c.Hobby, c.AdditionalInfo)
+	character += fmt.Sprintf("💼 <b>Багаж:</b> <i>%s</i>\n1️⃣ <b>Карта 1:</b> <i>%s</i>\n2️⃣ <b>Карта 2:</b> <i>%s</i>",
+		c.Baggage, c.Card1, c.Card2)
+	return character
+}
+
 func BunkerCharacter() string {
 	c := new(Character)
 	rand.Seed(time.Now().Unix()) // initialize pseudo random generator
@@ -73,14 +85,5 @@ func BunkerCharacter() string {
 	c.Card1 = Cards[rand.Intn(len(Cards))]
 	c.Card2 = Cards[rand.Intn(len(Cards))]
 
-	character := fmt.Sprintf("🚻 <b>Стать:</b> <i>%s</i>\n🔞 <b>Вік:</b> %d\n🥋 <b>Професія:</b> <i>%s</i>\n  \t \t<b>Стаж:</b> <i>%s</i>\n",
-		c.Gender, c.Age, c.Profession, c.ProfessionExp)
-	character += fmt.Sprintf("🤰 <b>Здатність до запліднення:</b> <i>%s</i>\n💊 <b>Стан здоров'я:</b> <i>%s</i>\n💪 <b>Тип тіла:</b> <i>%s</i>\n",
-		c.Fertility, c.HealthStatus, c.BodyType)
-	character += fmt.Sprintf("😱 <b>Фобія:</b> <i>%s</i>\n🏆 <b>Хобі:</b> <i>%s</i>\n🎟 <b>Дод. інформація:</b> <i>%s</i>\n",
-		c.Phobia, c.Hobby, c.AdditionalInfo)
-	character += fmt.Sprintf("💼 <b>Багаж:</b> <i>%s</i>\n1️⃣ <b>Карта 1:</b> <i>%s</i>\n2️⃣ <b>Карта 2:</b> <i>%s</i>",
-		c.Baggage, c.Card1, c.Card2)
-
-	return character
+	return c.CharacterFormatting()
 }
