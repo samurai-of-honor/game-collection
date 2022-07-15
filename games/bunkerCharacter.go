@@ -56,6 +56,15 @@ func BunkerCharacter() string {
 		c.ProfessionExp = expStr + ProfessionExpDate[1]
 	}
 
+	// Formation of fertility
+	if c.Gender == Gender[0] && c.Age >= 55 {
+		c.Fertility = Fertility[0]
+	} else if c.Gender == Gender[1] && c.Age >= 65 {
+		c.Fertility = Fertility[0]
+	} else {
+		c.Fertility = Fertility[rand.Intn(len(Fertility))]
+	}
+
 	// Formation of health
 	if rand.Intn(8) == 0 {
 		c.HealthStatus = "здоровий"
@@ -69,7 +78,6 @@ func BunkerCharacter() string {
 		}
 	}
 
-	c.Fertility = Fertility[rand.Intn(len(Fertility))]
 	c.BodyType = BodyType[rand.Intn(len(BodyType))]
 
 	// Phobias

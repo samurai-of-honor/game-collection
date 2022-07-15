@@ -5,6 +5,7 @@ import (
 	"game-collection/games"
 	"game-collection/logger"
 	tg "github.com/go-telegram-bot-api/telegram-bot-api"
+	"time"
 )
 
 func SendMsg(msg tg.Chattable) {
@@ -48,6 +49,7 @@ func CallbackHandler(ChatId int64, MessageId int, CallbackData string) {
 	var text string
 	switch CallbackData {
 	case Regenerated:
+		time.Sleep(500 * time.Millisecond)
 		text = games.BunkerCharacter()
 	}
 

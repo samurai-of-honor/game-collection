@@ -7,15 +7,11 @@ import (
 // Bot keyboards
 
 var StartKeyboard = tg.NewReplyKeyboard(
-	tg.NewKeyboardButtonRow(
-		tg.NewKeyboardButton(TheRescue),
-	),
+	// tg.NewKeyboardButtonRow(tg.NewKeyboardButton(TheRescue), ),
 	tg.NewKeyboardButtonRow(
 		tg.NewKeyboardButton(Bunker),
 	),
-	tg.NewKeyboardButtonRow(
-		tg.NewKeyboardButton(Mafia),
-	),
+	// tg.NewKeyboardButtonRow(tg.NewKeyboardButton(Mafia), ),
 )
 
 var BunkerKeyboard = tg.NewReplyKeyboard(

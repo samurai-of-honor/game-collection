@@ -1,7 +1,7 @@
 package configs
 
 // All bot text
-var (
+const (
 	StartMsg       = "👋 Привіт 🕹 Обирай гру:"
 	UnknownCommand = "Невідома команда 😕"
 	SelectGame     = "🕹 Обери гру:"

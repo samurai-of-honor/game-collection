@@ -67,9 +67,9 @@ func BunkerInfo() string {
 		i.GreenHouses = IsOrIsnt[1]
 		i.Armory = IsOrIsnt[1]
 	} else {
-		i.MedicalOffice = IsOrIsnt[rand.Intn(2)]
-		i.GreenHouses = IsOrIsnt[rand.Intn(2)]
-		i.Armory = IsOrIsnt[rand.Intn(2)]
+		i.MedicalOffice = IsOrIsnt[rand.Intn(len(IsOrIsnt))]
+		i.GreenHouses = IsOrIsnt[rand.Intn(len(IsOrIsnt))]
+		i.Armory = IsOrIsnt[rand.Intn(len(IsOrIsnt))]
 	}
 
 	s := TimeFormatter()
@@ -79,12 +79,12 @@ func BunkerInfo() string {
 	i.FoodStocks = s
 
 	// Formation of additional items
-	if rand.Intn(7) == 0 {
+	if rand.Intn(6) == 0 {
 		i.AdditionalItem1 = " нічого"
 	} else {
 		i.AdditionalItem1 = AdditionalItems[rand.Intn(len(AdditionalItems))]
 	}
-	if rand.Intn(7) == 0 {
+	if rand.Intn(6) == 0 {
 		i.AdditionalItem2 = " нічого"
 	} else {
 		i.AdditionalItem2 = AdditionalItems[rand.Intn(len(AdditionalItems))]
